@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/widgets/vertical_spacing.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +35,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ),
                   const VerticalSpacing(20),
-                  const Flexible(
-                    child: Text('News app'),
+                  Flexible(
+                    child: Text(
+                      'News app',
+                      style: GoogleFonts.lobster(
+                        textStyle:
+                            const TextStyle(fontSize: 20, letterSpacing: 0.6),
+                      ),
+                    ),
                   ),
                 ],
               ),
