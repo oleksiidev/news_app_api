@@ -30,6 +30,7 @@ class TabsWidget extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: fontSize,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
