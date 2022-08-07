@@ -35,8 +35,8 @@ class ArticlesWidget extends StatelessWidget {
               ),
               Container(
                 color: Theme.of(context).cardColor,
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: Row(
                   children: [
                     ClipRRect(
@@ -48,7 +48,7 @@ class ArticlesWidget extends StatelessWidget {
                           imageUrl:
                               'https://st2.depositphotos.com/2448349/7085/v/450/depositphotos_70856769-stock-illustration-animal-watercolor-illustration-decorative-silhouette.jpg'),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
@@ -63,7 +63,7 @@ class ArticlesWidget extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: smalTextStyle,
                           ),
-                          VerticalSpacing(5),
+                          const VerticalSpacing(5),
                           Align(
                             alignment: Alignment.topRight,
                             child: Text(
