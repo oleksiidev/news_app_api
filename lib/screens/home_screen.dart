@@ -16,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
+  int currentPageIndex = 0;
+  String sortBy = SortByEnum.publishedAt.name;
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
@@ -90,32 +92,75 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          paginationButtons(function: () {}, text: "Prev"),
+                          paginationButtons(
+                            text: "Prev",
+                            function: () {
+                              if (currentPageIndex == 0) {
+                                return;
+                              }
+                              setState(() {
+                                currentPageIndex -= 1;
+                              });
+                            },
+                          ),
                           Flexible(
                             flex: 2,
                             child: ListView.builder(
+                                itemCount: 5,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: ((context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: InkWell(
-                                      onTap: () {},
-                                      child: Container(
-                                        color: Theme.of(context).cardColor,
-                                        child: const Center(
+                                    child: Material(
+                                      color: currentPageIndex == index
+                                          ? Colors.blue
+                                          : Theme.of(context).cardColor,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            currentPageIndex = index;
+                                          });
+                                        },
+                                        child: Center(
                                             child: Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text('1'),
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("${index + 1}"),
                                         )),
                                       ),
                                     ),
                                   );
                                 })),
                           ),
-                          paginationButtons(function: () {}, text: "Next"),
+                          paginationButtons(
+                            text: "Next",
+                            function: () {
+                              if (currentPageIndex == 4) {
+                                return;
+                              }
+                              setState(() {
+                                currentPageIndex += 1;
+                              });
+                            },
+                          ),
                         ],
                       ),
                     ),
+              VerticalSpacing(10),
+              newsType == NewsType.topTrending
+                  ? Container()
+                  : Align(
+                      alignment: Alignment.topRight,
+                      child: Material(
+                        color: Theme.of(context).cardColor,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: DropdownButton(
+                              value: sortBy,
+                              items: dropdownButton,
+                              onChanged: (String? value) {}),
+                        ),
+                      ),
+                    )
             ],
           ),
         ),
@@ -123,18 +168,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  List<DropdownMenuItem<String>> get dropdownButton {
+    List<DropdownMenuItem<String>> menuItem = [
+      DropdownMenuItem(
+        value: SortByEnum.relevancy.name,
+        child: Text(SortByEnum.relevancy.name),
+      ),
+      DropdownMenuItem(
+        value: SortByEnum.popularity.name,
+        child: Text(SortByEnum.popularity.name),
+      ),
+      DropdownMenuItem(
+        value: SortByEnum.publishedAt.name,
+        child: Text(SortByEnum.publishedAt.name),
+      ),
+    ];
+    return menuItem;
+  }
+
   Widget paginationButtons({required Function function, required String text}) {
     return ElevatedButton(
-      onPressed: () {},
-      child: Text('Prev'),
+      onPressed: () {
+        function();
+      },
       style: ElevatedButton.styleFrom(
         primary: Colors.blue,
-        padding: EdgeInsets.all(6),
-        textStyle: TextStyle(
+        padding: const EdgeInsets.all(6),
+        textStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
       ),
+      child: Text(text),
     );
   }
 }
